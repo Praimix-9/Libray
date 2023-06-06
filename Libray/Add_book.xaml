@@ -1,0 +1,56 @@
+﻿<Page x:Class="Libray.Add_book"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Libray"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="650"
+      Title="Add_book">
+
+    <ScrollViewer>
+        <Grid Background="Gray" MinHeight="750" MinWidth="650">
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                    <RowDefinition Height="107"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.RowSpan="5" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Row="1" Grid.ColumnSpan="1" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Row="2" Grid.ColumnSpan="1" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Row="3" Grid.ColumnSpan="1" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Row="4" Grid.ColumnSpan="1" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Row="5" Grid.ColumnSpan="1" BorderBrush="Orange" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <Border Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1" BorderBrush="Purple" BorderThickness="1,1,1,1" Background="{x:Null}" />
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0">Шифр</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">Наименование</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2">Автор</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">Жанр</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4">Количество страниц</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5">Издательство</TextBlock>
+                <TextBox Text="{Binding Cipher}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Width="100" Margin="10" Name="Number_cipher"></TextBox>
+                <TextBox Text="{Binding Name_book}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Width="260" Margin="10" Name="Book_name"></TextBox>
+                <TextBox Text="{Binding Author}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Width="250" Margin="10" Name="Author_name"></TextBox>
+                <TextBox Text="{Binding Genre}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Width="200" Margin="10" Name="Genre_name"></TextBox>
+                <TextBox Text="{Binding Number_of_pages}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="4" Width="100" Margin="10"></TextBox>
+                <TextBox Text="{Binding Publishing_house}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="5" Grid.Row="5" Width="300" Margin="10"></TextBox>
+            </Grid>
+            <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 350, 35" Click="Button_save">Сохранить</Button>
+            <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="350, 0, 0, 35" Click="Button_cancel">Отмена</Button>
+        </Grid>
+    </ScrollViewer>
+</Page>

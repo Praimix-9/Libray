@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище Libray_bookModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Cipher" Type="int" Nullable="false" />
+    <Property Name="Name_book" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Author" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Genre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Publishing_house" Type="nvarchar" MaxLength="50" />
+    <Property Name="Number_of_pages" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Libray_book.dbo.Librarian" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="Librarian">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Login" />
+      <PropertyRef Name="Date_of_birth" />
+      <PropertyRef Name="Phone_number" />
+      <PropertyRef Name="Job" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_of_birth" Type="date" Nullable="false" />
+    <Property Name="Phone_number" Type="int" Nullable="false" />
+    <Property Name="Job" Type="int" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reader">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="FIO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_of_birth" Type="date" Nullable="false" />
+    <Property Name="Phone_number" Type="int" Nullable="false" />
+    <Property Name="Place_of_residence" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Libray_book.dbo.Recording" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="Recording">
+    <Key>
+      <PropertyRef Name="ID_reader" />
+      <PropertyRef Name="FIO" />
+      <PropertyRef Name="ID_book" />
+      <PropertyRef Name="Name_book" />
+      <PropertyRef Name="Date_of_issue" />
+      <PropertyRef Name="Return_date" />
+    </Key>
+    <Property Name="ID_reader" Type="int" Nullable="false" />
+    <Property Name="FIO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ID_book" Type="int" Nullable="false" />
+    <Property Name="Name_book" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_of_issue" Type="date" Nullable="false" />
+    <Property Name="Return_date" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Responsibilities" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Librarian_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Librarian" Type="Self.Librarian" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Librarian">
+        <PropertyRef Name="Job" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recording_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Recording">
+        <PropertyRef Name="ID_book" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recording_Reader">
+    <End Role="Reader" Type="Self.Reader" Multiplicity="1" />
+    <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Recording">
+        <PropertyRef Name="ID_reader" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище Libray_bookModelContainer">
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reader" EntityType="Self.Reader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Librarian" EntityType="Self.Librarian" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Librarian].[ID] AS [ID], 
+    [Librarian].[Login] AS [Login], 
+    [Librarian].[Date_of_birth] AS [Date_of_birth], 
+    [Librarian].[Phone_number] AS [Phone_number], 
+    [Librarian].[Job] AS [Job], 
+    [Librarian].[Password] AS [Password]
+    FROM [dbo].[Librarian] AS [Librarian]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Recording" EntityType="Self.Recording" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Recording].[ID_reader] AS [ID_reader], 
+    [Recording].[FIO] AS [FIO], 
+    [Recording].[ID_book] AS [ID_book], 
+    [Recording].[Name_book] AS [Name_book], 
+    [Recording].[Date_of_issue] AS [Date_of_issue], 
+    [Recording].[Return_date] AS [Return_date]
+    FROM [dbo].[Recording] AS [Recording]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Librarian_Roles" Association="Self.FK_Librarian_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Librarian" EntitySet="Librarian" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recording_Book" Association="Self.FK_Recording_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Recording" EntitySet="Recording" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recording_Reader" Association="Self.FK_Recording_Reader">
+      <End Role="Reader" EntitySet="Reader" />
+      <End Role="Recording" EntitySet="Recording" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

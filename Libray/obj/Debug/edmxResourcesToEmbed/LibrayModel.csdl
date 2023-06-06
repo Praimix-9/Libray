@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Libray_bookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Cipher" Type="Int32" Nullable="false" />
+    <Property Name="Name_book" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Genre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Publishing_house" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Number_of_pages" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_Book" FromRole="Book" ToRole="Recording" />
+  </EntityType>
+  <EntityType Name="Reader">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Phone_number" Type="Int32" Nullable="false" />
+    <Property Name="Place_of_residence" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Recordings" Relationship="Self.FK_Recording_Reader" FromRole="Reader" ToRole="Recording" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Responsibilities" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Librarians" Relationship="Self.FK_Librarian_Roles" FromRole="Roles" ToRole="Librarian" />
+  </EntityType>
+  <EntityType Name="Librarian">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Login" />
+      <PropertyRef Name="Date_of_birth" />
+      <PropertyRef Name="Phone_number" />
+      <PropertyRef Name="Job" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Phone_number" Type="Int32" Nullable="false" />
+    <Property Name="Job" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Librarian_Roles" FromRole="Librarian" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Recording">
+    <Key>
+      <PropertyRef Name="ID_reader" />
+      <PropertyRef Name="FIO" />
+      <PropertyRef Name="ID_book" />
+      <PropertyRef Name="Name_book" />
+      <PropertyRef Name="Date_of_issue" />
+      <PropertyRef Name="Return_date" />
+    </Key>
+    <Property Name="ID_reader" Type="Int32" Nullable="false" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ID_book" Type="Int32" Nullable="false" />
+    <Property Name="Name_book" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date_of_issue" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Return_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Recording_Book" FromRole="Recording" ToRole="Book" />
+    <NavigationProperty Name="Reader" Relationship="Self.FK_Recording_Reader" FromRole="Recording" ToRole="Reader" />
+  </EntityType>
+  <Association Name="FK_Recording_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Recording">
+        <PropertyRef Name="ID_book" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recording_Reader">
+    <End Role="Reader" Type="Self.Reader" Multiplicity="1" />
+    <End Role="Recording" Type="Self.Recording" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Recording">
+        <PropertyRef Name="ID_reader" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Librarian_Roles">
+    <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+    <End Role="Librarian" Type="Self.Librarian" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Librarian">
+        <PropertyRef Name="Job" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Libray_bookEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Books" EntityType="Self.Book" />
+    <EntitySet Name="Readers" EntityType="Self.Reader" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="Librarians" EntityType="Self.Librarian" />
+    <EntitySet Name="Recordings" EntityType="Self.Recording" />
+    <AssociationSet Name="FK_Recording_Book" Association="Self.FK_Recording_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Recording" EntitySet="Recordings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recording_Reader" Association="Self.FK_Recording_Reader">
+      <End Role="Reader" EntitySet="Readers" />
+      <End Role="Recording" EntitySet="Recordings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Librarian_Roles" Association="Self.FK_Librarian_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Librarian" EntitySet="Librarians" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
